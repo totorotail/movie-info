@@ -1,7 +1,6 @@
 <template>
   <Navbar />
   <Event :text="text[eventTextNum]"/>
-  {{  eventTextNum }}
   <SearchBar 
     :data="data_temp" 
     @searchMovie="searchMovie($event)"

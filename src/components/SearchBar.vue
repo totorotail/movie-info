@@ -11,7 +11,6 @@
       >
       <button>검색</button>
     </div>
-    <p>{{ inputText }}</p>
   </template>
     
   <script>
