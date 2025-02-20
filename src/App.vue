@@ -1,8 +1,15 @@
 <template>
   <Navbar />
-  <Event :text="text" />
+  <Event :text="text"/>
+  <SearchBar 
+    :data="data_temp" 
+    @searchMovie="searchMovie($event)"
+  />
+  <p>
+    <button @click="showAllMovie" class="btn-all">전체보기</button>
+  </p>
   <Movies 
-    :data="data"
+    :data="data_temp"
     @openModal="isModal=true;selectedMovie=$event"
     @increseLike="increseLike($event)"
   />
@@ -21,6 +28,7 @@ import Navbar from './components/Navbar.vue';
 import Event from './components/Event.vue'; // 이벤트 박스
 import Modal from './components/Modal.vue';
 import Movies from './components/Movies.vue';
+import SearchBar from './components/SearchBar.vue'; // 검색창
 console.log(data);
 
 export default {
@@ -28,7 +36,8 @@ export default {
   data() {
     return {
       isModal: false, 
-      data: data,
+      data: data, // 원본
+      data_temp: [...data], // 사본
       selectedMovie: 0,
       text: "NEPLIX 강렬한 운명의 드라마, 경기크리처"
     }
@@ -36,6 +45,15 @@ export default {
   methods: {
     increseLike(i) {
       this.data[i].like += 1;
+    },
+    searchMovie(title) {
+      // 영화제목이 포함된 데이터를 가져옴
+      this.data_temp = this.data.filter(movie => {
+        return movie.title.includes(title);
+      })
+    },
+    showAllMovie() {
+      this.data_temp = [...this.data];
     }
   },
   components: {
@@ -43,6 +61,7 @@ export default {
     Event: Event,
     Modal: Modal,
     Movies: Movies,
+    SearchBar,
   }
 }
 </script>
@@ -111,5 +130,9 @@ button {
   width: 80%;
   padding: 20px;
   border-radius: 10px;
+}
+
+p:has(.btn-all) {
+  text-align: center;
 }
 </style>
